@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<package packagerversion="1.4.0a9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Math_StatIndex</name>
+ <uri>http://www.castagnetto.com/pear/Math_StatIndex-0.5.0</uri>
+ <summary>Package to calculate statistical index numbers</summary>
+ <description>An index number is &quot;(a) statistic which assigns a single number to several
+individual statistics in order to quantify trends.&quot; (From MathWorld [1]).
+This package allows the calculation of some of the bettern known index
+numbers: Bowley index, Fisher index, Geometric mean index, Harmonic mean
+index, Laspeyres&apos; index, Marshall-Edgeworth index, Mitchell index,
+Paasche&apos;s index, and Walsh index.</description>
+ <lead>
+  <name>Jesus M. Castagnetto</name>
+  <user>jmcastagnetto</user>
+  <email>jmcastagnetto@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2005-03-28</date>
+ <time>13:57:33</time>
+ <version>
+  <release>0.5.0</release>
+  <api>0.5.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.example.com">PHP</license>
+ <notes>Initial release of the code.</notes>
+ <contents>
+  <dir name="/">
+   <file baseinstalldir="Math" md5sum="db86f1c4e6f662a4e3285612fbe4c543" name="doc/example/ex_statindex.php" role="php" />
+   <file baseinstalldir="Math" md5sum="df7823e48f2087adb6f771a4ddfb9461" name="StatIndex/Item.php" role="php" />
+   <file baseinstalldir="Math" md5sum="73ccead0606de11765b1e2a9d6f879a8" name="StatIndex/ItemList.php" role="php" />
+   <file baseinstalldir="Math" md5sum="32639149193e378a591d1fc232feb2d8" name="StatIndex.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+    <max>6.0.0</max>
+   </php>
+   <pearinstaller>
+    <min>1.4.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>
