@@ -12,6 +12,6 @@ numbers: Bowley index, Fisher index, Geometric mean index, Harmonic mean
 index, Laspeyres&apos; index, Marshall-Edgeworth index, Mitchell index,
 Paasche's index, and Walsh index.
  
-This is old code I wrote circa 2005.
+This *was* old code I wrote circa 2005, modifying it to use some of the PHP 7 new capabilities
 
 -- Jesus M. Castagnetto

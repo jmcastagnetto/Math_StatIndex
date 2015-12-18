@@ -1,5 +1,6 @@
 <?php
-    require_once 'StatIndex.php';
+// TO DO: change this example
+    require_once 'Index.php';
 
     // made up values
     $currArr = array(
@@ -28,4 +29,3 @@
     */
     print_r($index->allIndexes());
     //var_dump($index);
-?>
