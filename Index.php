@@ -3,6 +3,10 @@
 
 namespace Math\StatIndex;
 
+    /**
+     * Class Index
+     * @package Math\StatIndex
+     */
 /**
  * Class Index
  * @package Math\StatIndex
@@ -49,7 +53,7 @@ class Index {
      * @throws \Math\StatIndex\StatIndexException
      */
     public function setData(ItemList $current,
-                               ItemList $reference) {
+                            ItemList $reference) {
         return $this->setCurrentAndReferenceData($current, $reference);
     }
 
@@ -61,7 +65,7 @@ class Index {
      * @throws \Math\StatIndex\StatIndexException
      */
     public function setCurrentAndReferenceData(ItemList $current,
-                                                  ItemList $reference) {
+                                               ItemList $reference) {
         // validate lists
         $sizeCheck = ($current->size() === $reference->size());
         $diff = array_diff($current->getItemsNames(), $reference->getItemsNames());
@@ -112,7 +116,8 @@ class Index {
     }
 
     /**
-     * @return mixed
+     * @return \Math\StatIndex\float|mixed
+     * @throws \DivisionByError
      * @throws \Math\StatIndex\StatIndexException
      */
     public function paascheIndex():float {
@@ -135,12 +140,11 @@ class Index {
     }
 
     /**
-     * @return mixed
+     * @return \Math\StatIndex\float|mixed
+     * @throws \DivisionByError
      */
-    function laspeyresIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+    function laspeyresIndex():float {
+        $this->validData();
         if (!isset($this->_indexes['laspeyres'])) {
             $numeratorSum = 0;
             $denominatorSum = 0;
@@ -151,7 +155,7 @@ class Index {
                 $denominatorSum += $refItem->getValue() * $refItem->getQuantity();
             }
             if ($denominatorSum == 0) {
-                return PEAR::raiseError('Division by zero');
+                throw new \DivisionByError('Division by zero while estimating Laspeyres\' Index');
             }
             $this->_indexes['laspeyres'] = ($numeratorSum / $denominatorSum);
         }
@@ -161,10 +165,8 @@ class Index {
     /**
      * @return mixed
      */
-    function bowleyIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+    function bowleyIndex():float {
+        $this->validData();
         if (!isset($this->_indexes['bowley'])) {
             $this->_indexes['bowley'] = 0.5 * ($this->paascheIndex() + $this->laspeyresIndex());
         }
@@ -174,10 +176,8 @@ class Index {
     /**
      * @return mixed
      */
-    function fisherIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+    function fisherIndex():float {
+        $this->validData();
         if (!isset($this->_indexes['fisher'])) {
             $this->_indexes['fisher'] = sqrt($this->paascheIndex() * $this->laspeyresIndex());
         }
@@ -186,11 +186,10 @@ class Index {
 
     /**
      * @return mixed
+     * @throws \DivisionByError
      */
     function marshallEdgeworthIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+        $this->validData();
         if (!isset($this->_indexes['marshall-edgeworth'])) {
             $numeratorSum = 0;
             $denominatorSum = 0;
@@ -202,7 +201,7 @@ class Index {
                     ($currItem->getValue() * $currItem->getQuantity());
             }
             if ($denominatorSum == 0) {
-                return PEAR::raiseError('Division by zero');
+                throw new \DivisionByError('Division by zero while estimating Marshall-Edgeworth\'s Index');
             }
             $this->_indexes['marshall-edgeworth'] = ($numeratorSum / $denominatorSum);
         }
@@ -211,11 +210,10 @@ class Index {
 
     /**
      * @return mixed
+     * @throws \DivisionByError
      */
     function walshIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+        $this->validData();
         if (!isset($this->_indexes['walsh'])) {
             $numeratorSum = 0;
             $denominatorSum = 0;
@@ -227,7 +225,7 @@ class Index {
                 $denominatorSum += $refItem->getValue() * $factor;
             }
             if ($denominatorSum == 0) {
-                return PEAR::raiseError('Division by zero');
+                throw new \DivisionByError('Division by zero while estimating Walsh\'s Index');
             }
             $this->_indexes['walsh'] = ($numeratorSum / $denominatorSum);
         }
@@ -236,11 +234,10 @@ class Index {
 
     /**
      * @return mixed
+     * @throws \DivisionByError
      */
     function harmonicMeanIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+        $this->validData();
         if (!isset($this->_indexes['harmonic-mean'])) {
             $numeratorSum = 0;
             $denominatorSum = 0;
@@ -252,7 +249,7 @@ class Index {
                 $denominatorSum += ($refItem->getValue() / $currItem->getValue()) * $refValue;
             }
             if ($denominatorSum == 0) {
-                return PEAR::raiseError('Division by zero');
+                throw new \DivisionByError('Division by zero while estimating the Harmonic Mean Index');
             }
             $this->_indexes['harmonic-mean'] = ($numeratorSum / $denominatorSum);
         }
@@ -263,9 +260,7 @@ class Index {
      * @return mixed
      */
     function geometricMeanIndex() {
-        if (!$this->_validData) {
-            return PEAR::raiseError('Inconsistent current and reference data, cannot compute index');
-        }
+        $this->validData();
         if (!isset($this->_indexes['geometric-mean'])) {
             $product = 1;
             $inverseExponent = 0;
@@ -275,7 +270,7 @@ class Index {
                 $refTotal = $refItem->getValue() * $refItem->getQuantity();
                 $product *= pow(($currItem->getValue() / $refItem->getValue()), $refTotal);
                 if (is_infinite($product)) {
-                    return PEAR::raiseError('Math overflow when computing geometric mean index');
+                    throw new \OverflowException('Math overflow when computing geometric mean index');
                 }
                 $inverseExponent += $refTotal;
             }

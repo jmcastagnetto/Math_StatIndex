@@ -22,12 +22,16 @@ class ItemList {
 
     /**
      * @static
+     *
+     * @param array $items
+     *
+     * @return \Math\StatIndex\ItemList
      */
     public static function fromArray(array $items) {
         $list = new ItemList();
         foreach ($items as $name => $item) {
             $importance = (isset($item['importance'])) ? floatval($item['importance']) : 1.0;
-            $list->addItem(new Item($name, $item['value'], $item['quantity'], $importance));
+            $list->addItem(new Item((string) $name, $item['value'], $item['quantity'], $importance));
         }
         return $list;
     }
@@ -35,44 +39,44 @@ class ItemList {
     /**
      * @param \Math\StatIndex\Item $item
      */
-    function addItem(Item $item) {
+    public function addItem(Item $item) {
         $this->_entries[$item->getName()] = $item;
     }
 
     /**
-     * @param \Math\StatIndex\Item $name
+     * @param string $name
      */
-    function removeItem(Item $name) {
+    public function removeItem(string $name) {
         unset($this->_entries[$name]);
     }
 
     /**
-     * @param \Math\StatIndex\Item $name
+     * @param \Math\StatIndex\string|string $name
      *
-     * @return mixed
+     * @return \Math\StatIndex\Item|mixed
      */
-    function getItem(Item $name) {
+    public function getItem(string $name):Item {
         return $this->_entries[$name];
     }
 
     /**
      * @return array
      */
-    function getItems() {
+    public function getItems():array {
         return $this->_entries;
     }
 
     /**
      * @return array
      */
-    function getItemsNames() {
+    public function getItemsNames():array {
         return array_keys($this->_entries);
     }
 
     /**
-     * @return int
+     * @return int|\Math\StatIndex\int
      */
-    function size() {
+    public function size():int {
         return count($this->_entries);
     }
 }
